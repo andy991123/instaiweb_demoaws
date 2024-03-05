@@ -5,7 +5,9 @@ import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 import InstAI_icon from '../../image/iconnew.png'
 
+
 const Login = ({ setUserState }) => {
+  const log_in = process.env.REACT_APP_LOG_IN
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -46,7 +48,7 @@ const Login = ({ setUserState }) => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
       axios
-        .post("http://3.86.5.66:8080/api/account/login", user)
+        .post(log_in, user)
         .then((res) => {
           if(res.data.includes("Faile"))
             alert("Log in failed!");

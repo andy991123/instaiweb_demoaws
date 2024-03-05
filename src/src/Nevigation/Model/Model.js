@@ -17,13 +17,13 @@ const Model = () => {
   const userid = searchParams.get('id');
   const projectname = searchParams.get("projectname");
   const [modelFile, setModelFile] = useState(yolov3Model);
-  
+  const d_m = process.env.REACT_APP_DOWNLOAD_MODEL;
   useEffect(() => {
     const fetchModel = async () => {
       try {
 
         const responses = await axios.post(
-          `http://3.86.5.66:8080/api/model/downloadmodel/?username=${userid}&projectname=${projectname}`, 
+          `${d_m}/?username=${userid}&projectname=${projectname}`, 
           null, // 注意這裡傳遞了 null，因為 POST 請求不需要傳遞具體的資料
           { 
             responseType: 'blob'

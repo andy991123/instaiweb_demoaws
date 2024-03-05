@@ -6,8 +6,8 @@ import { useNavigate, NavLink } from "react-router-dom";
 import InstAI_icon from '../../image/iconnew.png'
 
 const Register = () => {
+  const sign_up = process.env.REACT_APP_SIGN_UP;
   const navigate = useNavigate();
-
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [user, setUserDetails] = useState({
@@ -69,7 +69,7 @@ const Register = () => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
       axios
-        .post(`http://3.86.5.66:8080/api/account/signup/`, user)
+        .post(sign_up, user)
         .then((res) => {
           alert(res.data);
           navigate("/login", { replace: true });

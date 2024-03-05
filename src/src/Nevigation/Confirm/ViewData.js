@@ -14,6 +14,8 @@ function ViewData() {
   const projectname = searchParams.get('projectname');
   const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const upload_download = process.env.REACT_APP_UPLOAD_DOWNLOAD;
+  const view_data = process.env.REACT_APP_AWS_VIEW_DATA;
 
   // const fetchData = async () => {
   //   try {
@@ -26,7 +28,7 @@ function ViewData() {
   // };
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://3.86.5.66:8080/api/upload/download?username=${id}&projectname=${projectname}`);
+      const response = await axios.get(`${upload_download}?username=${id}&projectname=${projectname}`);
       console.log('Response from backend:', response.data);
   
       if (response.data.images && Array.isArray(response.data.images)) {
@@ -135,14 +137,12 @@ function ViewData() {
           <h1 className="display-4  text-center create-title" style={{fontWeight:'bold'}}>Image Preview</h1>
         </div>
 
-
-   
       <div className="image-previews">
         {imagePreviews.map((preview, index) => (
           <div key={index} className="image-preview">
             <img
               //src={`https://instaiweb-bucket.s3.us-east-1.amazonaws.com/uploads/3/cats/5.png`}
-              src={`https://instaiweb-bucket.s3.us-east-1.amazonaws.com/${preview}`}
+              src={`${view_data}/${preview}`}
               // src={`http://localhost:8080${preview}`}
               alt={`image ${index}`}
               style={{ width: '128px', height: '128px' }}

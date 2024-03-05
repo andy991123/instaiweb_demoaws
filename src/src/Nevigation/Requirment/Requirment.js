@@ -28,6 +28,8 @@ function Requirement() {
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
   const projectname = searchParams.get("projectname");
+  const u_r = process.env.REACT_APP_UPLOAD_REQUIREMENT;
+  const c_s = process.env.REACT_APP_CONFIRM_STEP;
   // Set initial values for ID, author, and LastUpdated
   useEffect(() => {
     setReqData((prevData) => ({
@@ -60,11 +62,7 @@ function Requirement() {
       alert("Please answer both questions.");
     } else {
       const confirmed = window.confirm(
-        `Are you sure you want to submit?\n\nData to be submitted:\n${JSON.stringify(
-          reqData,
-          null,
-          2
-        )}`
+        `Are you sure you want to submit?`
       );
       if (confirmed) {
         setIsDataChecked(true);
@@ -82,12 +80,12 @@ function Requirement() {
     };
     try {
       const response = await axios.post(
-        `http://3.86.5.66:8080/api/upload/requirement/?username=${id}&projectname=${projectname}`,
+        `${u_r}/?username=${id}&projectname=${projectname}`,
         requestData
       );
       console.log("server response:", response.data);
       const response2 = await axios.post(
-        `http://3.86.5.66:8080/api/project/confirmstep/?step=2&username=${id}&projectname=${projectname}`
+        `${c_s}/?step=2&username=${id}&projectname=${projectname}`
       );
       console.log('step updated successfully:', response2.data);
       alert("Requirement submitted successfully!");

@@ -13,6 +13,8 @@ function Download2() {
   const projectname = searchParams.get('projectname');
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
+  const u = process.env.REACT_APP_UPLOAD;
+  const c_s = process.env.REACT_APP_CONFIRM_STEP;
   //const [username, setUsername] = useState(""); 
   //const [filename, setFilename] = useState(""); 
   // 文件選擇
@@ -102,7 +104,7 @@ function Download2() {
       }
   
       try {
-        const response = await axios.post(`http://3.86.5.66:8080/api/upload/upload?username=${id}&projectname=${projectname}`, formData)
+        const response = await axios.post(`${u}/?username=${id}&projectname=${projectname}`, formData)
         .then(response => {
           console.log(response.data);
           // Handle success
@@ -114,7 +116,7 @@ function Download2() {
         });
         console.log(response);
         const response2 = await axios.post(
-          `http://3.86.5.66:8080/api/project/confirmstep/?step=1&username=${id}&projectname=${projectname}`
+          `${c_s}/?step=1&username=${id}&projectname=${projectname}`
         );
         console.log('step updated successfully:', response2.data);
         localStorage.setItem(`firstPage_${id}_${projectname}`, 'true');

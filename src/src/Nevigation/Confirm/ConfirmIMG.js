@@ -14,10 +14,14 @@ function ConfirmImg() {
   const [confirmed2, setConfirmed2] = useState(JSON.parse(localStorage.getItem(`confirmStatusImg_${id}_${projectname}`) || 'false'));
   const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const upload_download = process.env.REACT_APP_UPLOAD_DOWNLOAD;
+  const upload_deleteimg = process.env.REACT_APP_UPLOAD_DELETEIMG;
+  const upload = process.env.REACT_APP_UPLOAD;
+  const confirm_img = process.env.REACT_APP_AWS_CONFIRM_IMG;
   console.log("現在狀態",confirmed2);
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://3.86.5.66:8080/api/upload/download?username=${id}&projectname=${projectname}`);
+      const response = await axios.get(`${upload_download}/?username=${id}&projectname=${projectname}`);
       console.log(response.data.images);
       setImagePreviews(response.data.images);
     } catch (error) {
@@ -39,7 +43,7 @@ function ConfirmImg() {
 
     setImagePreviews(updatedPreviews);
     try {
-      await axios.post(`http://3.86.5.66:8080/api/upload/deleteimg?username=${id}&projectname=${projectname}`, { filename: deletedImage });
+      await axios.post(`${upload_deleteimg}/?username=${id}&projectname=${projectname}`, { filename: deletedImage });
       alert('Delete success');
     } catch (error) {
       console.error('Error deleting image:', error);
@@ -149,7 +153,7 @@ function ConfirmImg() {
       }
       console.log(selectedFiles.length);
       try {
-        const response = await axios.post(`http://3.86.5.66:8080/api/upload/upload?username=${id}&projectname=${projectname}`, formData);
+        const response = await axios.post(`${upload}/?username=${id}&projectname=${projectname}`, formData);
         console.log(response.data);
         alert('Upload success');
         setSelectedFiles([]);
@@ -215,7 +219,7 @@ function ConfirmImg() {
         style={{ backgroundColor: confirmed2 ? 'green' : '' }}
         disabled={confirmed2 ? true : false}
       >
-        {confirmed2 ? 'Image is already confirmed' : 'Image is not confirmed'}
+        {confirmed2 ? 'Confirmed' : 'Unconfirmed'}
         </button>
         </div>
 
